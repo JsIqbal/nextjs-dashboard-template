@@ -1,6 +1,9 @@
+"use client"
+
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Code2Icon, ImageIcon, LayoutDashboard, MessageSquareIcon, MusicIcon, VideoIcon } from "lucide-react";
+import { ArrowRight, Code2Icon, ImageIcon, LayoutDashboard, MessageSquareIcon, MusicIcon, VideoIcon, WebhookIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const tools = [
@@ -12,43 +15,44 @@ const tools = [
     bgColor: "bg-purple-300",
   },
   {
-    label: "Chat",
+    label: "Chat with AI",
     icon: MessageSquareIcon,
     href: "/chat",
     color: "text-blue-900",
     bgColor: "bg-blue-300",
   },
   {
-    label: "Image Generation",
+    label: "Generate stunning Images",
     icon: ImageIcon,
-    href: "/image-gen",
+    href: "/image",
     color: "text-green-900",
     bgColor: "bg-green-300",
   },
   {
-    label: "Video Generation",
+    label: "Generate Videos",
     icon: VideoIcon,
-    href: "/video-gen",
+    href: "/video",
     color: "text-yellow-900",
     bgColor: "bg-yellow-300",
   },
   {
-    label: "Audio Generation",
+    label: "Make Audio tracks",
     icon: MusicIcon,
-    href: "/audio-gen",
+    href: "/audio",
     color: "text-orange-900",
     bgColor: "bg-orange-300",
   },
   {
-    label: "Code Generation",
+    label: "Generate Code",
     icon: Code2Icon,
-    href: "/code-gen",
+    href: "/code",
     color: "text-red-900",
     bgColor: "bg-red-300",
   },
 ];
 
 const DashboardPage = () => {
+  const router = useRouter()
   return (
     <div className="h-full p-4">
       <div className="mb-8 space-y-3 flex flex-col justify-center items-center">
@@ -62,8 +66,9 @@ const DashboardPage = () => {
       <div className="px-4 md:px-10 lg:px-20 xl:px-32 2xl:40 space-y-4 w-full">
         {tools.map((tool) => (
           <Card
+          onClick={() => router.push(tool.href)}
             key={tool.href}
-            className="p-4 border-black/5 flex items-center justify-between shadow-md hover:shadow-lg hover:bg-white/30 transition duration-150 cursor-pointer"
+            className="p-4 border-black/5 flex items-center justify-between shadow-md hover:shadow-lg hover:bg-white/30 hover:scale-[101%] transition duration-150 cursor-pointer"
           >
             <div className="flex items-center gap-4">
               <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>

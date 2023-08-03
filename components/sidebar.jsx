@@ -29,25 +29,25 @@ const routes = [
   {
     label: "Image Generation",
     icon: ImageIcon,
-    href: "/image-gen",
+    href: "/image",
     color: "text-green-500",
   },
   {
     label: "Video Generation",
     icon: VideoIcon,
-    href: "/video-gen",
+    href: "/video",
     color: "text-yellow-500",
   },
   {
     label: "Audio Generation",
     icon: MusicIcon,
-    href: "/audio-gen",
+    href: "/audio",
     color: "text-orange-500",
   },
   {
     label: "Code Generation",
     icon: Code2Icon,
-    href: "/code-gen",
+    href: "/code",
     color: "text-red-500",
   },
 ];
@@ -58,7 +58,7 @@ const Sidebar = () => {
     <div className="space-y-4 py-2 flex flex-col h-full bg-[#111827] text-white">
       <div className="px-2 flex-1">
         <Link href="/dashboard" className="flex items-center mb-14">
-          <div className="relative w-32 h-24">
+          <div className="relative w-28 h-20 ">
             <Image fill alt="Logo" src="/logo.png" />
           </div>
           <h1 className={cn("text-2xl font-bold", montsserrat.className)}>
