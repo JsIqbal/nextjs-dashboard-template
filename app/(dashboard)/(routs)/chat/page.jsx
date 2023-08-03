@@ -7,13 +7,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const ChatPage = () => {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([]);
   const { toast } = useToast();
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
     if (prompt.trim() === "") return;
     try {
       let res = await fetch("/api/chat", {
@@ -25,10 +27,10 @@ const ChatPage = () => {
           prompt: prompt,
           history: messages,
         }),
-      })
+      });
 
-      res = await res.json() 
-      print(res)
+      res = await res.json();
+      print(res);
 
       setMessages((prev) => [...prev, ...res.message]);
       setPrompt("");
@@ -42,15 +44,22 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-between h-[95%] px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
-      <div className="w-full flex justify-center items-center">
+      <div className="w-full">
         {messages.length === 0 ? (
-          <Heading
-            title="Chatting"
-            description="Chat with a friendly AI ChatBot"
-            Icon={MessageSquareIcon}
-            iconColor="text-blue-900"
-            bgColor="bg-blue-400"
-          />
+          <div className="flex flex-col gap-10 justify-center items-center">
+            <Heading
+              title="Chatting"
+              description="Chat with a friendly AI ChatBot"
+              Icon={MessageSquareIcon}
+              iconColor="text-blue-900"
+              bgColor="bg-blue-400"
+            />
+            <div>
+              <i className="text-2xl text-muted-foreground">
+                Send a message to start the Conversation
+              </i>
+            </div>
+          </div>
         ) : (
           <div className="w-full  flex flex-col gap-3 overflow-auto">
             {messages.map((message) => {
@@ -58,13 +67,18 @@ const ChatPage = () => {
                 <div
                   key={message.message}
                   className={cn(
-                    "p-3 text-start font-serif flex",
-                    message.role === "user"
-                      ? "bg-lime-300 justify-end"
-                      : "bg-sky-300 justify-start"
+                    "p-3 text-start font-sans font-semibold flex",
+                    message.role === "user" ? "justify-end" : "justify-start"
                   )}
                 >
-                  {message.message}
+                  <div className="flex flex-col items-start gap-3">
+                    <div className="relative w-16 h-12 ">
+                      <Image fill alt="Logo" src="/logo.png" />
+                    </div>
+                    <div className="p-3 rounded-2xl text-white bg-[#5B96F7]">
+                      {message.message}
+                    </div>
+                  </div>
                 </div>
               );
             })}

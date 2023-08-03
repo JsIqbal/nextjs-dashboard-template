@@ -5,7 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Nest Clerk Template",
+  title: "Munab.AI",
   description: "",
 };
 
