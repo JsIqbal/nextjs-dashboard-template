@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 import axios from 'axios'
 
 export async function POST(req) {
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.json({ message: [{role: "user", message: "hello"}, {role:"assitant", message: "Hello! how can i assist you today?"}]})
+  }
   // Get the prompt and history from the request body
   const { prompt, history } = await req.json()
   console.log(prompt)
