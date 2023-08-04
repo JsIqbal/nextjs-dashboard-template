@@ -22,8 +22,12 @@ const ChatPage = () => {
     setLoadingMessage(true);
     if (prompt.trim() === "") return;
     try {
-      history = messages
-      setMessages((prev) => [...prev, {role: "user", message: prompt.trim()}])
+      setPrompt("");
+      let messagesHistory = messages;
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", message: prompt.trim() },
+      ]);
       let res = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -31,15 +35,20 @@ const ChatPage = () => {
         },
         body: JSON.stringify({
           prompt: prompt.trim(),
-          history,
+          history: messagesHistory,
         }),
       });
 
       res = await res.json();
-      setMessages((prev) => [...prev, {role: "assitant", message: res.generatedText}]);
+      console.log(res);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", message: res.generated_text },
+      ]);
       setLoadingMessage(false);
-      setPrompt("");
     } catch (err) {
+      console.error(err);
+      setLoadingMessage(false);
       toast({
         variant: "destructive",
         description: "An error occurred while sending the message.",
@@ -48,8 +57,8 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-[93%] px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
-      <div className="w-full">
+    <div className="flex flex-col items-center justify-between h-[93%] ">
+      <div className="w-full flex flex-col justify-start gap-3 overflow-none pb-16 px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
         <div className="flex flex-col gap-10 justify-center items-center py-8">
           <Heading
             title="Chatting"
@@ -66,54 +75,50 @@ const ChatPage = () => {
             </div>
           )}
         </div>
-        <div className="w-full flex flex-col gap-3 overflow-auto pb-16">
-          {messages.map((message) => (
+        {messages.map((message) => (
+          <div
+            key={message.message}
+            className={cn(
+              "p-3 text-start font-sans font-semibold flex",
+              message.role === "user" ? "justify-end" : "justify-start"
+            )}
+          >
             <div
-              key={message.message}
               className={cn(
-                "p-3 text-start font-sans font-semibold flex",
-                message.role === "user" ? "justify-end" : "justify-start"
+                "flex flex-col items-start after:w-[50%]",
+                message.role === "user"
+                  ? "items-end gap-5"
+                  : "items-start gap-3"
               )}
             >
               <div
                 className={cn(
-                  "flex flex-col items-start after:w-[50%]",
-                  message.role === "user"
-                    ? "items-end gap-5"
-                    : "items-start gap-3"
+                  "relative w-12 h-6 flex flex-col",
+                  message.role === "user" ? "items-end" : "items-start"
                 )}
               >
-                <div
-                  className={cn(
-                    "relative w-12 h-6 flex flex-col",
-                    message.role === "user" ? "items-end" : "items-start"
-                  )}
-                >
-                  {message.role === "user" ? (
-                    <UserButton className="h-10 w-10 pb-3" />
-                  ) : (
-                    <Image fill alt="Logo" src="/logo-new.png" />
-                  )}
-                </div>
-                <div
-                  className={cn(
-                    " p-3 rounded-2xl text-white bg-blue-500",
-                    message.role === "user"
-                      ? "rounded-tr-none"
-                      : "rounded-tl-none"
-                  )}
-                >
-                  {message.message}
-                </div>
+                {message.role === "user" ? (
+                  <UserButton className="h-10 w-10 pb-3" />
+                ) : (
+                  <Image fill alt="Logo" src="/logo-new.png" />
+                )}
+              </div>
+              <div
+                className={cn(
+                  " p-3 rounded-2xl text-white bg-blue-500",
+                  message.role === "user"
+                    ? "rounded-tr-none"
+                    : "rounded-tl-none"
+                )}
+              >
+                {message.message}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+        {loadingMessage && <LoadingButton text="Generating" />}
       </div>
-      <div className="flex w-full flex-col gap-5">
-        {
-          loadingMessage && <LoadingButton text="Generating"/>
-        }
+      <div className="flex w-full flex-col pt-5 gap-5 sticky bottom-0 shadow-md border-2 bg-white z-10 px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
         <form onSubmit={sendMessage} className="flex mb-6 lg:mb-10 shadow-lg">
           <Input
             type="text"

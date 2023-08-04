@@ -65,8 +65,8 @@ const Sidebar = () => {
   const pathname = usePathname();
   return (
     <div className="space-y-4 py-2 flex flex-col h-full bg-[#111827] text-white">
-      <div className="px-2 flex flex-col justify-start items-center flex-1">
-        <Link href="/dashboard" className="flex items-center gap-4 mb-16 mt-6">
+      <div className="px-2 flex flex-col justify-start items-start flex-1">
+        <Link href="/dashboard" className="flex w-full items-center justify-center gap-4 mb-16 mt-6">
           <div className="relative w-14 h-9 ">
             <Image fill alt="Logo" src="/logo-new.png" />
           </div>
@@ -74,7 +74,7 @@ const Sidebar = () => {
             Munab AI
           </h1>
         </Link>
-        <div className="space-y-3 text-zinc-400">
+        <div className="space-y-3 text-zinc-400 ps-[5%]">
           {routes.map((route) => {
             return (
               <Link

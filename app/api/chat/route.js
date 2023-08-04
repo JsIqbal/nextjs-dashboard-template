@@ -3,9 +3,10 @@ import { NextResponse } from 'next/server';
 import axios from 'axios'
 
 export async function POST(req) {
-  // if (process.env.NODE_ENV === "development") {
-  //   return NextResponse.json({ message: [{role: "user", message: "hello"}, {role:"assitant", message: "Hello! how can i assist you today?"}]})
-  // }
+  // console.log(process.env.NODE_ENV, process.env.NODE_ENV === "development")
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.json({ generated_text: "Hello! how can i assist you today?"})
+  }
   // Get the prompt and history from the request body
   const { prompt, history } = await req.json()
   console.log(prompt)
@@ -38,7 +39,7 @@ export async function POST(req) {
     // Send the result as JSON
     return NextResponse.json(result.openai, {status: 200})
   } catch (error) {
-    console.error(error.response.data)
+    console.error(error)
     // Handle any errors
     return NextResponse.json(error.message, {status:500})
   }
