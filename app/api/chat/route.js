@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 import axios from 'axios'
 
 export async function POST(req) {
-  if (process.env.NODE_ENV === "development") {
-    return NextResponse.json({ message: [{role: "user", message: "hello"}, {role:"assitant", message: "Hello! how can i assist you today?"}]})
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   return NextResponse.json({ message: [{role: "user", message: "hello"}, {role:"assitant", message: "Hello! how can i assist you today?"}]})
+  // }
   // Get the prompt and history from the request body
   const { prompt, history } = await req.json()
   console.log(prompt)
@@ -20,8 +20,8 @@ export async function POST(req) {
     text: prompt,
     chat_global_action: 'You are a ChatBot assistant',
     previous_history: history, // Extract only the messages from history
-    temperature: 0.7,
-    max_tokens: 300
+    temperature: process.env.CHAT_TEMPERATURE,
+    max_tokens: process.env.MAX_CHAT_TOKENS
   }
 
   // Make a POST request to the EdenAI API

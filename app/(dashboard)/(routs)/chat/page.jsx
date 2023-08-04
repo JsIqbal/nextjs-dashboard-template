@@ -16,27 +16,27 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(false);
   const { toast } = useToast();
-  const user = useUser();
 
   const sendMessage = async (e) => {
     e.preventDefault();
     setLoadingMessage(true);
     if (prompt.trim() === "") return;
     try {
+      history = messages
+      setMessages((prev) => [...prev, {role: "user", message: prompt.trim()}])
       let res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: prompt,
-          history: messages,
+          prompt: prompt.trim(),
+          history,
         }),
       });
 
       res = await res.json();
-      console.log(res)
-      setMessages((prev) => [...prev, ...res.message]);
+      setMessages((prev) => [...prev, {role: "assitant", message: res.generatedText}]);
       setLoadingMessage(false);
       setPrompt("");
     } catch (err) {
@@ -48,9 +48,9 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-[95%] px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
+    <div className="flex flex-col items-center justify-between h-[93%] px-6 md:px-10 lg:px-[7%] xl:px-[10%] 2xl:px-[20%]">
       <div className="w-full">
-        <div className="flex flex-col gap-10 justify-center items-center">
+        <div className="flex flex-col gap-10 justify-center items-center py-8">
           <Heading
             title="Chatting"
             description="Chat with a friendly AI ChatBot"
@@ -66,7 +66,7 @@ const ChatPage = () => {
             </div>
           )}
         </div>
-        <div className="w-full flex flex-col gap-3 overflow-auto">
+        <div className="w-full flex flex-col gap-3 overflow-auto pb-16">
           {messages.map((message) => (
             <div
               key={message.message}
@@ -97,7 +97,7 @@ const ChatPage = () => {
                 </div>
                 <div
                   className={cn(
-                    "p-3 rounded-2xl text-white bg-blue-500",
+                    " p-3 rounded-2xl text-white bg-blue-500",
                     message.role === "user"
                       ? "rounded-tr-none"
                       : "rounded-tl-none"
