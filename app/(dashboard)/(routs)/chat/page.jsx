@@ -30,7 +30,6 @@ const ChatPage = () => {
       });
 
       res = await res.json();
-      print(res);
 
       setMessages((prev) => [...prev, ...res.message]);
       setPrompt("");
@@ -72,7 +71,7 @@ const ChatPage = () => {
                   )}
                 >
                   <div className="flex flex-col items-start gap-3">
-                    <div className="relative w-16 h-12 ">
+                    <div className="relative w-8 h-4 ">
                       <Image fill alt="Logo" src="/logo-new.png" />
                     </div>
                     <div className="p-3 rounded-2xl text-white bg-[#5B96F7]">
