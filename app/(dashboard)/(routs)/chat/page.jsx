@@ -73,7 +73,7 @@ const ChatPage = () => {
                 >
                   <div className="flex flex-col items-start gap-3">
                     <div className="relative w-16 h-12 ">
-                      <Image fill alt="Logo" src="/logo.png" />
+                      <Image fill alt="Logo" src="/logo-new.png" />
                     </div>
                     <div className="p-3 rounded-2xl text-white bg-[#5B96F7]">
                       {message.message}
