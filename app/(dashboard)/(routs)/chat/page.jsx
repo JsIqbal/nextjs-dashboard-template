@@ -35,7 +35,7 @@ const ChatPage = () => {
       });
 
       res = await res.json();
-
+      console.log(res)
       setMessages((prev) => [...prev, ...res.message]);
       setLoadingMessage(false);
       setPrompt("");
