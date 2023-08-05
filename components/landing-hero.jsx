@@ -33,7 +33,7 @@ export const LandingHero = () => {
       </div>
       <div>
         <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-          <Button varient="outline" className="md:text-lg p-4 md:p-6 rounded-full font-semibold bg-gradient-to-r from-indigo-700 to-pink-600">
+          <Button varient="outline" className="md:text-lg p-4 md:p-6 rounded-full font-semibold bg-gradient-to-r from-indigo-700 to-pink-600 hover:scale-[102%] transition-all duration-150 shadow-lg">
             Start Generating For Free
           </Button>
         </Link>
