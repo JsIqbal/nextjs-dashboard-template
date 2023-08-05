@@ -15,7 +15,6 @@ const ChatPage = () => {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(false);
-  const { toast } = useToast();
 
   const sendMessage = async (e) => {
     e.preventDefault();
